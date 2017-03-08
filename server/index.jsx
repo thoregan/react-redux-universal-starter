@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -8,10 +10,18 @@ import * as reducers from 'reducers';
 import thunk from 'redux-thunk';
 import routes from '../shared/routes';
 
-// Static are served by nginx
-
 // Create express server
 const app = express();
+
+// Serve static gzip for js, css and html files
+app.get('*.(js|css|html)', (req, res, next) => {
+  req.url += '.gz';
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
+
+// Serving static with express server
+app.use(express.static('./dist'));
 
 // Function waiting for all promises to resolve
 function requestContextData(store = {}, { components = [] }) {
