@@ -55,8 +55,10 @@ app.use(express.static('./dist'));
 ```
 
 ## How routes are managed:
-We managed routes with react-routes, inside 'shared/routes.jsx'.
-Refer to [React-router].
+We managed routes with react-routes, inside 'shared/routes.jsx'.  
+Refer to [React-router].  
+
+#### Lazy loading
 You can use lazy loading by calling getComponent and require.ensure instead of component.
 ``` js
     <Route
@@ -69,9 +71,7 @@ You can use lazy loading by calling getComponent and require.ensure instead of c
       }}
     />
 ```
-This way the component are not loaded in the main bundle, but, when you enter this route.
-
-#### Server
+This way the component are not loaded in the main bundle, but, when you enter this route.  
 We added a polyfill to require.ensure for the server.
 
 ## How to get redux state inside containers:
