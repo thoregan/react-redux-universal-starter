@@ -8,10 +8,12 @@ import * as reducers from 'reducers';
 import thunk from 'redux-thunk';
 import routes from '../shared/routes';
 
-const app = express();
-
 // Static are served by nginx
 
+// Create express server
+const app = express();
+
+// Function waiting for all promises to resolve
 function requestContextData(store = {}, { components = [] }) {
   const promises = components.reduce((prev, current = {}) => (
     (current.need || []).concat(prev)
@@ -21,28 +23,42 @@ function requestContextData(store = {}, { components = [] }) {
 }
 
 app.use((req, res) => {
+  // Get the current url
   const location = req.url;
+
+  // Get the reducers
   const reducer = combineReducers(reducers);
+
+  // Create the store
   const store = (createStore)(reducer, applyMiddleware(thunk));
 
+  // Look for url
   match({ routes, location }, (err, redirectLocation, renderProps) => {
+    // Render http status code 500 if there is an error
     if (err) {
       console.error(err);
       return res.status(500).end('Internal server error');
     }
 
+    // Render 404 not found if renderProps == null
     if (!renderProps) return res.status(404).end('Not found.');
 
+    // Get the initial component
     const InitialComponent = (
       <Provider store={store}>
         { <RouterContext {...renderProps} /> }
       </Provider>
     );
 
+    // Render the page after getting all the promises resolved
     requestContextData(store, renderProps).then(() => {
+      // Get the state
       const initialState = store.getState();
 
+      // Render the component as string
       const componentHTML = renderToString(InitialComponent);
+
+      // Inject initial state and componentHtml to the page
       const HTML = `
       <!DOCTYPE html>
       <html>
@@ -61,6 +77,7 @@ app.use((req, res) => {
     </html>    
     `;
 
+      // Return the generate HTML to client
       return res.end(HTML);
     });
 

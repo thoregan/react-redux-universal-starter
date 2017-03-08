@@ -22,6 +22,7 @@ export function itemsFetchDataSuccess(items) {
 }
 
 const URL = 'http://192.168.1.21:3000/v1/nav_links';
+
 export function itemsFetchData() {
   return (dispatch) => {
     // Request is loading

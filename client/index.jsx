@@ -29,8 +29,10 @@ const store = createStore(reducer, initialState, composeEnhancers(
   applyMiddleware(thunk),
 ));
 
+// Create the browser history
 const history = createBrowserHistory();
 
+// Render the page
 match({ history, routes }, (error, redirectLocation, renderProps) => {
   render(
     <Provider store={store}>
