@@ -1,0 +1,41 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules": {
+    "no-underscore-dangle": "off",
+    "import/no-mutable-exports": "off",
+    "react/prefer-stateless-function": "off",
+    "max-len": [
+      1,
+      120,
+      2,
+      {
+        "ignoreComments": true
+      }
+    ],
+    "class-methods-use-this": [
+      "error",
+      {
+        "exceptMethods": [
+          "render",
+          "getInitialState",
+          "getDefaultProps",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillUnmount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "renderNavLink"
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": "webpack"
+  },
+  "env" : {
+    "browser": true
+  }
+}
