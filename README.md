@@ -37,7 +37,7 @@ server {
          proxy_pass http://127.0.0.1:8090;
     }
     
-    location ~* \.(js)$  {
+    location ~* \.(js|css|html)$  {
          gzip_static  on;
          root path/to/app/dist/;
     }
